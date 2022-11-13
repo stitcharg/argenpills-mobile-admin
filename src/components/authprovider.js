@@ -18,8 +18,8 @@ const authProvider = {
 			.then(auth => {
 				localStorage.setItem('auth', JSON.stringify(auth));
 			})
-			.catch(() => {
-				throw new Error('Network error')
+			.catch((err) => {
+				throw err;
 			});
 	},
 
