@@ -7,8 +7,8 @@ export const PillEdit = props => {
 	return (
 		<Edit {...props} title="Editar informacion" >
 			<SimpleForm label="Test">
-				<TextInput source="name" label="Nombre" validate={required()} />
-				<TextInput source="color" label="Color" validate={required()} />
+				<TextInput source="name" label="Nombre" validate={required()} autoComplete={false} />
+				<TextInput source="color" label="Color" validate={required()} autoComplete={false} />
 
 				<BooleanInput label="Multiples tandas" source="multiple_batchs" />
 
@@ -66,11 +66,11 @@ export const PillEdit = props => {
 					}}
 				</FormDataConsumer>
 
-				<TextInput source="lab_url" fullWidth={true} label="URL del test" />
+				<TextInput source="lab_url" fullWidth={true} label="URL del test" autoComplete={false} />
 
-				<TextInput source="notes" fullWidth={true} label="Notas" multiline={true} maxRows={3} />
+				<TextInput source="notes" fullWidth={true} label="Notas" multiline={true} maxRows={3} autoComplete={false} />
 
-				<TextInput source="ap_url" label="Argenpills URL" fullWidth={true} validate={required()} />
+				<TextInput source="ap_url" label="Argenpills URL" fullWidth={true} validate={required()} autoComplete={false} />
 
 			</SimpleForm>
 		</Edit>);
