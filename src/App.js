@@ -40,7 +40,7 @@ const myDataProvider = {
       const fileName = rawFile.path;  //will be used to know the extension for the upload  
       const pill_image_raw = params.data.upl_image;
 
-      if (!pill_image_raw.rawFile instanceof File) {
+      if (!(pill_image_raw.rawFile instanceof File)) {
         return Promise.reject('Error: Not a file...'); // Didn't test this...
       }
 
@@ -63,7 +63,7 @@ const myDataProvider = {
       const lab_image_raw = params.data.upl_lab_image;
       const fileName = rawFile.path;  //will be used to know the extension for the upload  
 
-      if (!lab_image_raw.rawFile instanceof File) {
+      if (!(lab_image_raw.rawFile instanceof File)) {
         return Promise.reject('Error: Not a file...'); // Didn't test this...
       }
 
@@ -117,7 +117,7 @@ const myDataProvider = {
       const fileName = rawFile.path;  //will be used to know the extension for the upload  
       const pill_image_raw = params.data.upl_image;
 
-      if (!pill_image_raw.rawFile instanceof File) {
+      if (!(pill_image_raw.rawFile instanceof File)) {
         return Promise.reject('Error: Not a file...'); // Didn't test this...
       }
 
@@ -139,7 +139,7 @@ const myDataProvider = {
       const lab_image_raw = params.data.upl_lab_image;
       const fileName = rawFile.path;  //will be used to know the extension for the upload  
 
-      if (!lab_image_raw.rawFile instanceof File) {
+      if (!(lab_image_raw.rawFile instanceof File)) {
         return Promise.reject('Error: Not a file...'); // Didn't test this...
       }
 
