@@ -7,8 +7,8 @@ export const PillEdit = props => {
 	return (
 		<Edit {...props} title="Editar informacion" >
 			<SimpleForm label="Test">
-				<TextInput source="name" label="Nombre" validate={required()} autoComplete={false} />
-				<TextInput source="color" label="Color" validate={required()} autoComplete={false} />
+				<TextInput source="name" label="Nombre" validate={required()} autoComplete="false" />
+				<TextInput source="color" label="Color" validate={required()} autoComplete="false" />
 
 				<BooleanInput label="Multiples tandas" source="multiple_batchs" />
 
@@ -37,10 +37,11 @@ export const PillEdit = props => {
 				<FormDataConsumer>
 					{({ formData, dispatch, ...rest }) => {
 						if (!formData.upl_image && formData.image) {
+							const { getSource, ...rest } = props;
 							return (
 								<div>
 									<Labeled label="Foto existente">
-										<ImageField source="image" {...rest} />
+										<ImageField source="image" {...props} />
 									</Labeled>
 								</div>
 							);
@@ -55,10 +56,11 @@ export const PillEdit = props => {
 				<FormDataConsumer>
 					{({ formData, dispatch, ...rest }) => {
 						if (!formData.upl_lab_image && formData.lab_image) {
+							const { getSource, ...rest } = props;
 							return (
 								<div>
 									<Labeled label="Foto existente">
-										<ImageField source="lab_image" {...rest} />
+										<ImageField source="lab_image" {...props} />
 									</Labeled>
 								</div>
 							);
@@ -66,11 +68,11 @@ export const PillEdit = props => {
 					}}
 				</FormDataConsumer>
 
-				<TextInput source="lab_url" fullWidth={true} label="URL del test" autoComplete={false} />
+				<TextInput source="lab_url" fullWidth={true} label="URL del test" autoComplete="false" />
 
-				<TextInput source="notes" fullWidth={true} label="Notas" multiline={true} maxRows={3} autoComplete={false} />
+				<TextInput source="notes" fullWidth={true} label="Notas" multiline={true} maxRows={3} autoComplete="false" />
 
-				<TextInput source="ap_url" label="Argenpills URL" fullWidth={true} validate={required()} autoComplete={false} />
+				<TextInput source="ap_url" label="Argenpills URL" fullWidth={true} validate={required()} autoComplete="false" />
 
 			</SimpleForm>
 		</Edit>);
