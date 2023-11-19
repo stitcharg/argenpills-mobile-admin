@@ -1,14 +1,17 @@
-import React from "react";
 import { Edit, SelectInput, SimpleForm, ImageField, ImageInput, FormDataConsumer, Labeled, BooleanInput } from 'react-admin';
 import { DateInput, TextInput, required } from 'react-admin';
 
 export const PillEdit = props => {
+	const transform = data => ({
+		...data,
+		published: true
+	});
 
 	return (
-		<Edit {...props} title="Editar informacion" >
-			<SimpleForm label="Test">
-				<TextInput source="name" label="Nombre" validate={required()} autoComplete="false" />
-				<TextInput source="color" label="Color" validate={required()} autoComplete="false" />
+		<Edit {...props} title="Editar informacion" redirect="list" transform={transform}>
+			<SimpleForm>
+				<TextInput source="name" label="Nombre" validate={required()} autoComplete="off" />
+				<TextInput source="color" label="Color" validate={required()} autoComplete="off" />
 
 				<BooleanInput label="Multiples tandas" source="multiple_batchs" />
 
@@ -31,17 +34,16 @@ export const PillEdit = props => {
 				]} helperText="Si no tiene advertencias, elegir Sin alerta" />
 
 				<ImageInput source="upl_image" maxSize={1024000} accept="image/*" fullWidth={false} label="Foto de la pastilla">
-					<ImageField source="image"></ImageField>
+					<ImageField source="src"></ImageField>
 				</ImageInput>
 
 				<FormDataConsumer>
 					{({ formData, dispatch, ...rest }) => {
 						if (!formData.upl_image && formData.image) {
-							const { getSource, ...rest } = props;
 							return (
 								<div>
 									<Labeled label="Foto existente">
-										<ImageField source="image" {...props} />
+										<ImageField source="image" {...rest} />
 									</Labeled>
 								</div>
 							);
@@ -50,17 +52,16 @@ export const PillEdit = props => {
 				</FormDataConsumer>
 
 				<ImageInput source="upl_lab_image" maxSize={1024000} accept="image/*" fullWidth={false} label="Foto del test" >
-					<ImageField source="lab_image"></ImageField>
+					<ImageField source="src"></ImageField>
 				</ImageInput>
 
 				<FormDataConsumer>
 					{({ formData, dispatch, ...rest }) => {
 						if (!formData.upl_lab_image && formData.lab_image) {
-							const { getSource, ...rest } = props;
 							return (
 								<div>
 									<Labeled label="Foto existente">
-										<ImageField source="lab_image" {...props} />
+										<ImageField source="lab_image" {...rest} />
 									</Labeled>
 								</div>
 							);
@@ -68,12 +69,13 @@ export const PillEdit = props => {
 					}}
 				</FormDataConsumer>
 
-				<TextInput source="lab_url" fullWidth={true} label="URL del test" autoComplete="false" />
+				<TextInput source="lab_url" fullWidth={true} label="URL del test" autoComplete="off" />
 
-				<TextInput source="notes" fullWidth={true} label="Notas" multiline={true} maxRows={3} autoComplete="false" />
+				<TextInput source="notes" fullWidth={true} label="Notas" multiline={true} maxRows={3} autoComplete="off" />
 
-				<TextInput source="ap_url" label="Argenpills URL" fullWidth={true} validate={required()} autoComplete="false" />
+				<TextInput source="ap_url" label="Argenpills URL" fullWidth={true} validate={required()} autoComplete="off" />
 
+				<BooleanInput label="Publicada" source="published" disabled={true} />
 			</SimpleForm>
 		</Edit>);
 };
