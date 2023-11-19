@@ -1,32 +1,23 @@
-import React from "react";
-import { Create, SelectInput, SimpleForm, useNotify, useRefresh, useRedirect } from 'react-admin';
+import { Create, SelectInput, SimpleForm } from 'react-admin';
 import { DateInput, TextInput, ImageInput, ImageField, required, BooleanInput } from 'react-admin';
 
 export const PillAdd = props => {
-
-	const notify = useNotify();
-	const refresh = useRefresh();
-	const redirect = useRedirect();
-
-
-	const onSuccess = ({ data }) => {
-		notify(`Cambios guardados`);
-		redirect('/items');
-		refresh();
-	};
-
 	const today = new Date().toISOString().slice(0, 10);
-	const defaultValues = () => ({ date: today });
+
+	const transform = data => ({
+		...data,
+		published: true
+	});
 
 	return (
-		<Create {...props} title="Agregar Pastilla" onSuccess={onSuccess}>
-			<SimpleForm initialValues={defaultValues}>
-				<TextInput source="name" label="Nombre" validate={required()} autoComplete={false} />
-				<TextInput source="color" label="Color" validate={required()} autoComplete={false} />
+		<Create {...props} title="Agregar Pastilla" redirect="list" transform={transform}>
+			<SimpleForm>
+				<TextInput source="name" label="Nombre" validate={required()} autoComplete="off" />
+				<TextInput source="color" label="Color" validate={required()} autoComplete="off" />
 
 				<BooleanInput label="Multiples tandas" source="multiple_batchs" />
 
-				<DateInput source="posted_date" label="Fecha aproximada de publicacion" validate={required()} />
+				<DateInput source="posted_date" label="Fecha aproximada de publicacion" validate={required()} defaultValue={today} />
 
 				<SelectInput source="substance" label="Sustancia" choices={[
 					{ id: null, name: 'Desconocida' },
@@ -48,18 +39,20 @@ export const PillAdd = props => {
 				]} helperText="Si no tiene advertencias, elegir Sin alerta" />
 
 				<ImageInput source="upl_image" maxSize={1024000} accept="image/*" fullWidth={false} label="Foto de la pastilla">
-					<ImageField source="image"></ImageField>
+					<ImageField source="src"></ImageField>
 				</ImageInput>
 
 				<ImageInput source="upl_lab_image" maxSize={1024000} accept="image/*" fullWidth={false} label="Foto del test" >
-					<ImageField source="lab_image"></ImageField>
+					<ImageField source="src"></ImageField>
 				</ImageInput>
 
-				<TextInput source="lab_url" fullWidth={true} label="URL del test" autoComplete={false} />
+				<TextInput source="lab_url" fullWidth={true} label="URL del test" autoComplete="off" />
 
-				<TextInput source="notes" fullWidth={true} label="Notas" multiline={true} maxRows={3} autoComplete={false} />
+				<TextInput source="notes" fullWidth={true} label="Notas" multiline={true} maxRows={3} autoComplete="off" />
 
-				<TextInput source="ap_url" label="Argenpills URL" fullWidth={true} validate={required()} autoComplete={false} />
+				<TextInput source="ap_url" label="Argenpills URL" fullWidth={true} validate={required()} autoComplete="off" />
+
+				<BooleanInput label="Publicada" source="published" defaultValue={true} disabled={true} />
 
 			</SimpleForm>
 		</Create>);
