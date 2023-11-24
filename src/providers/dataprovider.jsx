@@ -74,7 +74,7 @@ export const APDataProvider = {
             }
         }
 
-        console.log(convertToFormData(existingData));
+        //console.log(convertToFormData(existingData));
 
         return httpClient(`${URL}/${resource}`, {
             method: 'POST',
@@ -125,7 +125,7 @@ export const APDataProvider = {
 
         const id = existingData.data.id;
 
-        console.log(existingData, convertToFormData(existingData));
+        //console.log(existingData, convertToFormData(existingData));
 
         return httpClient(`${URL}/${resource}/${id}`, {
             method: 'PUT',
@@ -156,20 +156,23 @@ const convertToFormData = (params) => {
 
     //console.log(params.data);
 
-    formData.append('published', (params.data.published ? 'x' : '-'));
-    formData.append('ap_url', params.data.ap_url);
-    if (params.data.search_value) formData.append('search_value', params.data.search_value);
-    if (params.data.lab_url) formData.append('lab_url', params.data.lab_url);
-    if (params.data.load) formData.append('load', params.data.load);
-    formData.append('posted_date', params.data.posted_date);
     formData.append('name', params.data.name);
-    if (params.data.notes) formData.append('notes', params.data.notes);
-    if (params.data.multiple_batchs) formData.append('multiple_batchs', params.data.multiple_batchs);
-    if (params.data.warning) formData.append('warning', params.data.warning);
     if (params.data.color) formData.append('color', params.data.color);
+    formData.append('multiple_batchs', params.data.multiple_batchs);
+    formData.append('posted_date', params.data.posted_date);
+
+    if (params.data.substance) formData.append('substance', params.data.substance);
+    if (params.data.load) formData.append('load', params.data.load);
+    if (params.data.warning) formData.append('warning', params.data.warning);
+
+    if (params.data.lab_url) formData.append('lab_url', params.data.lab_url);
+    if (params.data.notes) formData.append('notes', params.data.notes);
+    formData.append('ap_url', params.data.ap_url);
 
     if (params.data.upl_image) formData.append('upl_image', params.data.upl_image.rawFile, params.data.upl_image.rawFile.path);
     if (params.data.upl_lab_image) formData.append('upl_lab', params.data.upl_lab_image.rawFile, params.data.upl_lab_image.rawFile.path);
+
+    formData.append('published', (params.data.published ? 'x' : '-'));
 
     return formData;
 }
