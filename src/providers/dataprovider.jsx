@@ -27,7 +27,7 @@ export const APDataProvider = {
 
         // Store the lastId in local storage
         if (data.length > 0 && json.LastEvaluatedKey != null) {
-            const lastIdKey = json.LastEvaluatedKey.id.S;
+            const lastIdKey = json.LastEvaluatedKey;
             localStorage.setItem(STORAGE_LASTEVALKEY, lastIdKey);
         }
 
