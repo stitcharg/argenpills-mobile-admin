@@ -1,11 +1,22 @@
 import { Edit, SelectInput, SimpleForm, ImageField, ImageInput, FormDataConsumer, Labeled, BooleanInput } from 'react-admin';
-import { DateInput, TextInput, required } from 'react-admin';
+import { DateInput, TextInput, required, Button } from 'react-admin';
+import { useState } from 'react';
 
 export const PillEdit = props => {
+	const [newImageUploaded, setNewImageUploaded] = useState(false);
+	const [newLabImageUploaded, setNewLabImageUploaded] = useState(false);
+
 	const transform = data => ({
 		...data,
+		newImageUploaded: newImageUploaded,
+		newLabImageUploaded: newLabImageUploaded,
 		published: true
 	});
+
+	const handleRemoveImage = (form) => {
+		form.change('image', null);
+		form.change('upl_image', null);
+	}
 
 	return (
 		<Edit {...props} title="Editar informacion" redirect="list" transform={transform}>
@@ -33,7 +44,13 @@ export const PillEdit = props => {
 					{ id: 2, name: 'Peligrosa' },
 				]} helperText="Si no tiene advertencias, elegir Sin alerta" />
 
-				<ImageInput source="upl_image" maxSize={1024000} accept="image/*" fullWidth={false} label="Foto de la pastilla">
+				<ImageInput
+					source="upl_image"
+					maxSize={1024000}
+					accept="image/*"
+					fullWidth={false} label="Foto de la pastilla"
+					onChange={() => setNewImageUploaded(true)}>
+
 					<ImageField source="src"></ImageField>
 				</ImageInput>
 
@@ -45,13 +62,20 @@ export const PillEdit = props => {
 									<Labeled label="Foto existente">
 										<ImageField source="image" {...rest} />
 									</Labeled>
+									<Button label="Borrar" onClick={() => handleRemoveImage(formData)}></Button>
 								</div>
 							);
 						}
 					}}
 				</FormDataConsumer>
 
-				<ImageInput source="upl_lab_image" maxSize={1024000} accept="image/*" fullWidth={false} label="Foto del test" >
+				<ImageInput
+					source="upl_lab_image"
+					maxSize={1024000}
+					accept="image/*"
+					fullWidth={false} label="Foto del test"
+					onChange={() => setNewLabImageUploaded(true)}>
+
 					<ImageField source="src"></ImageField>
 				</ImageInput>
 

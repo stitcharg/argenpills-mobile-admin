@@ -154,7 +154,19 @@ const convertFileToBase64 = file =>
 const convertToFormData = (params) => {
     let formData = new FormData();
 
-    //console.log(params.data);
+    const NEW_IMAGE_UPLOADED = params.data.newImageUploaded;
+    const NEW_LAB_IMAGE_UPLOADED = params.data.newLabImageUploaded;
+
+    if (!NEW_IMAGE_UPLOADED) {
+        formData.delete('upl_image');
+    }
+
+    if (!NEW_LAB_IMAGE_UPLOADED) {
+        formData.delete('upl_lab_image');
+    }
+
+
+    console.log(params.data);
 
     formData.append('name', params.data.name);
     if (params.data.color) formData.append('color', params.data.color);
@@ -169,8 +181,15 @@ const convertToFormData = (params) => {
     if (params.data.notes) formData.append('notes', params.data.notes);
     formData.append('ap_url', params.data.ap_url);
 
-    if (params.data.upl_image) formData.append('upl_image', params.data.upl_image.rawFile, params.data.upl_image.rawFile.path);
-    if (params.data.upl_lab_image) formData.append('upl_lab', params.data.upl_lab_image.rawFile, params.data.upl_lab_image.rawFile.path);
+    if (NEW_IMAGE_UPLOADED && params.data.upl_image)
+        formData.append('upl_image', params.data.upl_image.rawFile, params.data.upl_image.rawFile.path);
+    else
+        if (params.data.image) formData.append('image', params.data.image);
+
+    if (NEW_LAB_IMAGE_UPLOADED && params.data.upl_lab_image)
+        formData.append('upl_lab', params.data.upl_lab_image.rawFile, params.data.upl_lab_image.rawFile.path);
+    else
+        if (params.data.lab_image) formData.append('lab_image', params.data.lab_image);
 
     formData.append('published', (params.data.published ? 'x' : '-'));
 
