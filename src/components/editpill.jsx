@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Edit, SelectInput, SimpleForm, ImageField, ImageInput, FormDataConsumer, Labeled, BooleanInput } from 'react-admin';
 import { DateInput, TextInput, required, Button } from 'react-admin';
-
+import { FormValuesDisplay } from './formvaluesdisplay';
 import { useWatch, useFormContext } from 'react-hook-form';
 
 const IMAGE_TYPE = {
@@ -10,53 +10,83 @@ const IMAGE_TYPE = {
 	LAB :1
 }
 
-const ClearImageButton = ({...formDataProps}) => {
-    const formContext = useFormContext();
-	const existingImage = formDataProps.formData.image;
-    const handleClearImage = () => {
-        formContext.setValue('image', null);
-    };
-
-	console.log(existingImage);
-    return (
-		(existingImage != null ? 
-        <Button type="button" onClick={handleClearImage}>
-            Borrar
-        </Button> : <></>)
-    );
-};
-
-const FormValuesDisplay = () => (
-	
-    <FormDataConsumer>
-        {({ formData }) => <pre>{JSON.stringify(formData, null, 2)}</pre>}
-    </FormDataConsumer>
-);
-
 export const PillEdit = props => {
 	const [newImageUploaded, setNewImageUploaded] = useState(false);
 	const [newLabImageUploaded, setNewLabImageUploaded] = useState(false);		
     
-	const transform = data => ({
-		...data,
-		newImageUploaded: newImageUploaded,
-		newLabImageUploaded: newLabImageUploaded,
-		published: true
-	});
+	const transform = data => {
+		let transformedData = {
+			...data,
+			newImageUploaded: newImageUploaded,
+			newLabImageUploaded: newLabImageUploaded,
+			published: true
+		};
 
-	const ImageDisplay = () => {
+		if (transformedData.image === null) delete transformedData.image;
+		if (transformedData.lab_image === null) delete transformedData.lab_image;
+
+		if (transformedData.upl_image === null) delete transformedData.upl_image;
+		else if (newImageUploaded) delete transformedData.image;
+				
+		if (transformedData.upl_lab_image === null) delete transformedData.upl_lab_image;
+		else if (newLabImageUploaded) delete transformedData.lab_image;
+		
+		return transformedData;
+	};
+
+	const ClearImageButton = ({imageType, ...formDataProps}) => {
 		const formContext = useFormContext();
+		
+		let controlName = '';
+		let existingImage = '';
+		switch (imageType) {
+			case IMAGE_TYPE.PILL: {
+				controlName = 'image';
+				existingImage = formDataProps.formData.image;
+				break;
+			}
+			case IMAGE_TYPE.LAB: {
+				controlName = 'lab_image';
+				existingImage = formDataProps.formData.lab_image;
+				break;
+			}
+		}
+
+		const handleClearImage = (field) => {
+			formContext.setValue(field, null);
+		};
+
+		return (
+			(existingImage != null ? 
+			<Button onClick={() => handleClearImage(controlName)} label='Borrar'></Button> : null)
+		);
+	};
+
+	const ImageDisplay = ({imageType}) => {
+		const formContext = useFormContext();
+
+		let controlName = '';
+		switch (imageType) {
+			case IMAGE_TYPE.PILL: {
+				controlName = 'image';
+				break;
+			}
+			case IMAGE_TYPE.LAB: {
+				controlName = 'lab_image';
+				break;
+			}
+		}
+
 		const imageValue = useWatch({
-			name: 'image',
+			name: controlName,
 			control: formContext.control,
 		});
-
-		console.log(imageValue);
 	
 		if (imageValue === null) return <></> 
 
-		return (<Labeled label="Foto existente">
-				<ImageField source="image" />
+		return (
+			<Labeled label="Foto existente">
+				<ImageField source={controlName} />
 			</Labeled>);
 	};	
 
@@ -100,8 +130,8 @@ export const PillEdit = props => {
                 {formDataProps => (
                     <>
 						<div style={{ display: 'flex', alignItems: 'center' }}>
-                        	<ImageDisplay {...formDataProps} />
-                        	<ClearImageButton {...formDataProps} />
+                        	<ImageDisplay imageType={IMAGE_TYPE.PILL} />
+                        	<ClearImageButton {...formDataProps} imageType={IMAGE_TYPE.PILL} />
 						</div>
                     </>
                 )}
@@ -118,17 +148,14 @@ export const PillEdit = props => {
 				</ImageInput>
 
 				<FormDataConsumer>
-					{({ formData, dispatch, ...rest }) => {
-						if (!formData.upl_lab_image && formData.lab_image) {
-							return (
-								<div>
-									<Labeled label="Foto existente">
-										<ImageField source="lab_image" {...rest} />
-									</Labeled>
-								</div>
-							);
-						}
-					}}
+                {formDataProps => (
+                    <>
+						<div style={{ display: 'flex', alignItems: 'center' }}>
+                        	<ImageDisplay imageType={IMAGE_TYPE.LAB} />
+                        	<ClearImageButton {...formDataProps} imageType={IMAGE_TYPE.LAB} />
+						</div>
+                    </>
+                )}
 				</FormDataConsumer>
 
 				<TextInput source="lab_url" fullWidth={true} label="URL del test" autoComplete="off" />
@@ -139,7 +166,6 @@ export const PillEdit = props => {
 
 				<BooleanInput label="Publicada" source="published" disabled={true} />
 
-				<FormValuesDisplay />
 			</SimpleForm>
 		</Edit>);
 };
