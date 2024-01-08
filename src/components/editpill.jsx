@@ -7,13 +7,13 @@ import { useWatch, useFormContext } from 'react-hook-form';
 
 const IMAGE_TYPE = {
 	PILL: 0,
-	LAB :1
+	LAB: 1
 }
 
 export const PillEdit = props => {
 	const [newImageUploaded, setNewImageUploaded] = useState(false);
-	const [newLabImageUploaded, setNewLabImageUploaded] = useState(false);		
-    
+	const [newLabImageUploaded, setNewLabImageUploaded] = useState(false);
+
 	const transform = data => {
 		let transformedData = {
 			...data,
@@ -27,16 +27,16 @@ export const PillEdit = props => {
 
 		if (transformedData.upl_image === null) delete transformedData.upl_image;
 		else if (newImageUploaded) delete transformedData.image;
-				
+
 		if (transformedData.upl_lab_image === null) delete transformedData.upl_lab_image;
 		else if (newLabImageUploaded) delete transformedData.lab_image;
-		
+
 		return transformedData;
 	};
 
-	const ClearImageButton = ({imageType, ...formDataProps}) => {
+	const ClearImageButton = ({ imageType, ...formDataProps }) => {
 		const formContext = useFormContext();
-		
+
 		let controlName = '';
 		let existingImage = '';
 		switch (imageType) {
@@ -57,12 +57,12 @@ export const PillEdit = props => {
 		};
 
 		return (
-			(existingImage != null ? 
-			<Button onClick={() => handleClearImage(controlName)} label='Borrar'></Button> : null)
+			(existingImage != null ?
+				<Button onClick={() => handleClearImage(controlName)} label='Borrar'></Button> : null)
 		);
 	};
 
-	const ImageDisplay = ({imageType}) => {
+	const ImageDisplay = ({ imageType }) => {
 		const formContext = useFormContext();
 
 		let controlName = '';
@@ -81,14 +81,14 @@ export const PillEdit = props => {
 			name: controlName,
 			control: formContext.control,
 		});
-	
-		if (imageValue === null) return <></> 
+
+		if (imageValue === null) return <></>
 
 		return (
 			<Labeled label="Foto existente">
 				<ImageField source={controlName} />
 			</Labeled>);
-	};	
+	};
 
 	return (
 		<Edit {...props} title="Editar informacion" redirect="list" transform={transform}>
@@ -127,15 +127,15 @@ export const PillEdit = props => {
 				</ImageInput>
 
 				<FormDataConsumer>
-                {formDataProps => (
-                    <>
-						<div style={{ display: 'flex', alignItems: 'center' }}>
-                        	<ImageDisplay imageType={IMAGE_TYPE.PILL} />
-                        	<ClearImageButton {...formDataProps} imageType={IMAGE_TYPE.PILL} />
-						</div>
-                    </>
-                )}
-            	</FormDataConsumer>
+					{formDataProps => (
+						<>
+							<div style={{ display: 'flex', alignItems: 'center' }}>
+								<ImageDisplay imageType={IMAGE_TYPE.PILL} />
+								<ClearImageButton {...formDataProps} imageType={IMAGE_TYPE.PILL} />
+							</div>
+						</>
+					)}
+				</FormDataConsumer>
 
 				<ImageInput
 					source="upl_lab_image"
@@ -148,14 +148,14 @@ export const PillEdit = props => {
 				</ImageInput>
 
 				<FormDataConsumer>
-                {formDataProps => (
-                    <>
-						<div style={{ display: 'flex', alignItems: 'center' }}>
-                        	<ImageDisplay imageType={IMAGE_TYPE.LAB} />
-                        	<ClearImageButton {...formDataProps} imageType={IMAGE_TYPE.LAB} />
-						</div>
-                    </>
-                )}
+					{formDataProps => (
+						<>
+							<div style={{ display: 'flex', alignItems: 'center' }}>
+								<ImageDisplay imageType={IMAGE_TYPE.LAB} />
+								<ClearImageButton {...formDataProps} imageType={IMAGE_TYPE.LAB} />
+							</div>
+						</>
+					)}
 				</FormDataConsumer>
 
 				<TextInput source="lab_url" fullWidth={true} label="URL del test" autoComplete="off" />
