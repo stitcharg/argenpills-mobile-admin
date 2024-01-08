@@ -8,8 +8,6 @@ import { APDataProvider } from './providers/dataprovider';
 import authProvider from './providers/authprovider';
 import dashboard from './pages/dashboard';
 
-import './styles/custom.css';
-
 export function App() {
 
     return (
