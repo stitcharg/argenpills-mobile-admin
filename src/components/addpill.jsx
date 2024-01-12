@@ -1,13 +1,29 @@
+import { useState } from 'react';
 import { Create, SelectInput, SimpleForm } from 'react-admin';
 import { DateInput, TextInput, ImageInput, ImageField, required, BooleanInput } from 'react-admin';
 
 export const PillAdd = props => {
 	const today = new Date().toISOString().slice(0, 10);
+	const [newImageUploaded, setNewImageUploaded] = useState(false);
+	const [newLabImageUploaded, setNewLabImageUploaded] = useState(false);
 
-	const transform = data => ({
-		...data,
-		published: true
-	});
+
+	const transform = data => {
+		let transformedData = {
+			...data,
+			published: true,
+			newImageUploaded: newImageUploaded,
+			newLabImageUploaded: newLabImageUploaded
+		};
+
+		if (transformedData.upl_image === null) delete transformedData.upl_image;
+		else if (newImageUploaded) delete transformedData.image;
+
+		if (transformedData.upl_lab_image === null) delete transformedData.upl_lab_image;
+		else if (newLabImageUploaded) delete transformedData.lab_image;
+
+		return transformedData;
+	};
 
 	return (
 		<Create {...props} title="Agregar Pastilla" redirect="list" transform={transform}>
@@ -38,11 +54,23 @@ export const PillAdd = props => {
 					{ id: 2, name: 'Peligrosa' },
 				]} helperText="Si no tiene advertencias, elegir Sin alerta" />
 
-				<ImageInput source="upl_image" maxSize={1024000} accept="image/*" fullWidth={false} label="Foto de la pastilla">
+				<ImageInput
+					source="upl_image"
+					maxSize={1024000}
+					accept="image/*"
+					fullWidth={false}
+					label="Foto de la pastilla"
+					onChange={() => setNewImageUploaded(true)}>
 					<ImageField source="src"></ImageField>
 				</ImageInput>
 
-				<ImageInput source="upl_lab_image" maxSize={1024000} accept="image/*" fullWidth={false} label="Foto del test" >
+				<ImageInput
+					source="upl_lab_image"
+					maxSize={1024000}
+					accept="image/*"
+					fullWidth={false}
+					label="Foto del test"
+					onChange={() => setNewLabImageUploaded(true)}>
 					<ImageField source="src"></ImageField>
 				</ImageInput>
 
