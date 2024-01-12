@@ -10,12 +10,12 @@ import dashboard from './pages/dashboard';
 
 export function App() {
 
-    return (
-        <Admin
-            dataProvider={APDataProvider}
-            authProvider={authProvider}
-            dashboard={dashboard}>
-            <Resource name="items" list={PillList} create={PillAdd} edit={PillEdit} />
-        </Admin>
-    );
+	return (
+		<Admin
+			dataProvider={APDataProvider}
+			authProvider={authProvider}
+			dashboard={dashboard}>
+			<Resource name="items" list={PillList} create={PillAdd} edit={PillEdit} />
+		</Admin>
+	);
 }
