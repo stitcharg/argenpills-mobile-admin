@@ -165,8 +165,7 @@ const convertToFormData = (params) => {
 		formData.delete('upl_lab_image');
 	}
 
-
-	console.log(params.data);
+	//console.log(params.data);
 
 	formData.append('name', params.data.name);
 	if (params.data.color) formData.append('color', params.data.color);
