@@ -55,6 +55,7 @@ export const PillAdd = props => {
 				]} helperText="Si no tiene advertencias, elegir Sin alerta" />
 
 				<ImageInput
+					autoComplete="off"
 					source="upl_image"
 					maxSize={1024000}
 					accept="image/*"
@@ -65,6 +66,7 @@ export const PillAdd = props => {
 				</ImageInput>
 
 				<ImageInput
+					autoComplete="off"
 					source="upl_lab_image"
 					maxSize={1024000}
 					accept="image/*"

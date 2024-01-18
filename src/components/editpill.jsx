@@ -82,7 +82,7 @@ export const PillEdit = props => {
 			control: formContext.control,
 		});
 
-		if (imageValue === null) return <></>
+		if (imageValue === null || imageValue === "") return <></>
 
 		return (
 			<Labeled label="Foto existente">
@@ -117,6 +117,7 @@ export const PillEdit = props => {
 				]} helperText="Si no tiene advertencias, elegir Sin alerta" />
 
 				<ImageInput
+					autoComplete="off"
 					source="upl_image"
 					maxSize={1024000}
 					accept="image/*"
@@ -126,11 +127,11 @@ export const PillEdit = props => {
 					<ImageField source="src"></ImageField>
 				</ImageInput>
 
-				<FormDataConsumer>
+				<FormDataConsumer autoComplete="off">
 					{formDataProps => (
 						<>
 							<div style={{ display: 'flex', alignItems: 'center' }}>
-								<ImageDisplay imageType={IMAGE_TYPE.PILL} />
+								<ImageDisplay imageType={IMAGE_TYPE.PILL} autoComplete="off" />
 								<ClearImageButton {...formDataProps} imageType={IMAGE_TYPE.PILL} />
 							</div>
 						</>
@@ -138,6 +139,7 @@ export const PillEdit = props => {
 				</FormDataConsumer>
 
 				<ImageInput
+					autoComplete="off"
 					source="upl_lab_image"
 					maxSize={1024000}
 					accept="image/*"
@@ -147,11 +149,11 @@ export const PillEdit = props => {
 					<ImageField source="src"></ImageField>
 				</ImageInput>
 
-				<FormDataConsumer>
+				<FormDataConsumer autoComplete="off">
 					{formDataProps => (
 						<>
 							<div style={{ display: 'flex', alignItems: 'center' }}>
-								<ImageDisplay imageType={IMAGE_TYPE.LAB} />
+								<ImageDisplay imageType={IMAGE_TYPE.LAB} autoComplete="off" />
 								<ClearImageButton {...formDataProps} imageType={IMAGE_TYPE.LAB} />
 							</div>
 						</>
