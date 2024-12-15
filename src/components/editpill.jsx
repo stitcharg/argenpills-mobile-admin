@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { Edit, SelectInput, SimpleForm, ImageField, ImageInput, FormDataConsumer, Labeled, BooleanInput } from 'react-admin';
 import { DateInput, TextInput, required, Button } from 'react-admin';
-import { FormValuesDisplay } from './formvaluesdisplay';
 import { useWatch, useFormContext } from 'react-hook-form';
 
 const IMAGE_TYPE = {
@@ -92,7 +91,9 @@ export const PillEdit = props => {
 
 	return (
 		<Edit {...props} title="Editar informacion" redirect="list" transform={transform}>
-			<SimpleForm>
+			<SimpleForm defaultValue={{
+				published: true
+			}}>
 				<TextInput source="name" label="Nombre" validate={required()} autoComplete="off" />
 				<TextInput source="color" label="Color" validate={required()} autoComplete="off" />
 
@@ -101,7 +102,7 @@ export const PillEdit = props => {
 				<DateInput source="posted_date" label="Fecha aproximada de publicacion" validate={required()} />
 
 				<SelectInput source="substance" label="Sustancia" emptyText="Desconocida" choices={[
-					{ id: 1, name: 'MDMA' },
+					{ id: 1, name: 'MDMx' },
 					{ id: 2, name: 'Catinona' },
 				]} helperText="Si no se sabe, dejar desconocida" />
 
@@ -166,7 +167,7 @@ export const PillEdit = props => {
 
 				<TextInput source="ap_url" label="Argenpills URL" fullWidth={true} validate={required()} autoComplete="off" />
 
-				<BooleanInput label="Publicada" source="published" disabled={true} />
+				<BooleanInput label="Publicada" source="published" readOnly={true} />
 
 			</SimpleForm>
 		</Edit>);
