@@ -27,7 +27,7 @@ export const PillAdd = props => {
 
 	return (
 		<Create {...props} title="Agregar Pastilla" redirect="list" transform={transform}>
-			<SimpleForm>
+			<SimpleForm defaultValues={{ published: true }}>
 				<TextInput source="name" label="Nombre" validate={required()} autoComplete="off" />
 				<TextInput source="color" label="Color" validate={required()} autoComplete="off" />
 
@@ -37,7 +37,7 @@ export const PillAdd = props => {
 
 				<SelectInput source="substance" label="Sustancia" choices={[
 					{ id: null, name: 'Desconocida' },
-					{ id: 1, name: 'MDMA' },
+					{ id: 1, name: 'MDMx' },
 					{ id: 2, name: 'Catinona' },
 				]} helperText="Si no se sabe, dejar desconocida" />
 
@@ -82,7 +82,7 @@ export const PillAdd = props => {
 
 				<TextInput source="ap_url" label="Argenpills URL" fullWidth={true} validate={required()} autoComplete="off" />
 
-				<BooleanInput label="Publicada" source="published" defaultValue={true} disabled={true} />
+				<BooleanInput label="Publicada" source="published" readOnly={true} />
 
 			</SimpleForm>
 		</Create>);
