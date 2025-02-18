@@ -7,7 +7,7 @@ const dataProvider = restServerProvider(URL, httpClient);
 const CDN_IMAGES = import.meta.env.VITE_CDN_IMAGES;
 const STORAGE_LASTEVALKEY = "LastEvaluatedKey";
 
-export const APDataProvider = {
+export const apPillProvider = {
 	...dataProvider,
 	getOne: (resource, params) => dataProvider.getOne(resource, params).then(response => {
 		return response;

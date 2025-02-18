@@ -1,10 +1,14 @@
-import { Admin, Resource, ListGuesser } from 'react-admin';
+import { Admin, Resource } from 'react-admin';
 
-import { PillList } from "./components/pills"
-import { PillEdit } from './components/editpill';
-import { PillAdd } from './components/addpill';
+import { PillList } from "./components/pills/pills"
+import { PillEdit } from './components/pills/editpill';
+import { PillAdd } from './components/pills/addpill';
+import PillIcon from '@mui/icons-material/MedicalInformation';
 
-import { APDataProvider } from './providers/dataprovider';
+import { aiBotHistoryList } from './components/aibot/botHistory';
+import HistoryIcon from '@mui/icons-material/History';
+
+import { dataProviders } from './providers/combineproviders';
 import authProvider from './providers/authprovider';
 import dashboard from './pages/dashboard';
 
@@ -12,10 +16,11 @@ export function App() {
 
 	return (
 		<Admin
-			dataProvider={APDataProvider}
+			dataProvider={dataProviders}
 			authProvider={authProvider}
 			dashboard={dashboard}>
-			<Resource name="items" list={PillList} create={PillAdd} edit={PillEdit} />
+			<Resource name="items" list={PillList} create={PillAdd} edit={PillEdit} icon={PillIcon} />
+			<Resource name="aibot" hasEdit={false} list={aiBotHistoryList} hasShow={false} icon={HistoryIcon} />
 		</Admin>
 	);
 }
