@@ -1,4 +1,4 @@
-const URL = import.meta.env.VITE_ENDPOINT + "trainingdata";
+const URL = import.meta.env.VITE_ENDPOINT + "/trainingdata";
 const token = localStorage.getItem('token') ?? null;
 
 export const apAiTrainingProvider = {
