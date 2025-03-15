@@ -1,59 +1,66 @@
 export const apAiBotHistoryProvider = {
-    getList: async ({ resource }) => {
-        const URL = import.meta.env.VITE_ENDPOINT + "/aibothistory";
-        const token = localStorage.getItem('token') ?? null;
+	getList: async (resource, params) => {
+		const URL = import.meta.env.VITE_ENDPOINT + "/aibothistory";
+		const token = localStorage.getItem('token') ?? null;
 
-        const response = await fetch(URL, {
-            method: 'GET',
-            headers: new Headers(
-                { 'authorization': `Bearer ${token}` }
-            ),
-        });
+		const { filter } = params || {};
+		let queryParams = '';
 
-        const { data } = await response.json();
+		if (filter && filter.createdAtDate) {
+			queryParams = `?date=${filter.createdAtDate}`;
+		}
 
-        // Transform the data to add required id field if not present
-        const historyData = data.map((item, index) => ({
-            id: item.id || index, // Use existing id or index as fallback
-            ...item
-        }));
+		const response = await fetch(`${URL}${queryParams}`, {
+			method: 'GET',
+			headers: new Headers(
+				{ 'authorization': `Bearer ${token}` }
+			),
+		});
 
-        return {
-            data: historyData,
-            total: data.length,
-        };
-    },
+		const { data } = await response.json();
 
-    getOne: async (resource, { id }) => ({
-        data: { id, /* other fields */ },
-    }),
+		// Transform the data to add required id field if not present
+		const historyData = data.map((item, index) => ({
+			id: item.id || index, // Use existing id or index as fallback
+			...item
+		}));
 
-    getMany: async (resource, { ids }) => ({
-        data: ids.map(id => ({ id, /* other fields */ })),
-    }),
+		return {
+			data: historyData,
+			total: data.length,
+		};
+	},
 
-    getManyReference: async (resource, { target, id, pagination, filters, sort }) => ({
-        data: [],
-        total: 0,
-    }),
+	getOne: async (resource, { id }) => ({
+		data: { id, /* other fields */ },
+	}),
 
-    create: async (resource, { data }) => ({
-        data: { ...data, id: 123 },
-    }),
+	getMany: async (resource, { ids }) => ({
+		data: ids.map(id => ({ id, /* other fields */ })),
+	}),
 
-    update: async (resource, { id, data }) => ({
-        data: { ...data, id },
-    }),
+	getManyReference: async (resource, { target, id, pagination, filters, sort }) => ({
+		data: [],
+		total: 0,
+	}),
 
-    updateMany: async (resource, { ids, data }) => ({
-        data: ids,
-    }),
+	create: async (resource, { data }) => ({
+		data: { ...data, id: 123 },
+	}),
 
-    delete: async (resource, { id }) => ({
-        data: { id },
-    }),
+	update: async (resource, { id, data }) => ({
+		data: { ...data, id },
+	}),
 
-    deleteMany: async (resource, { ids }) => ({
-        data: ids,
-    }),
+	updateMany: async (resource, { ids, data }) => ({
+		data: ids,
+	}),
+
+	delete: async (resource, { id }) => ({
+		data: { id },
+	}),
+
+	deleteMany: async (resource, { ids }) => ({
+		data: ids,
+	}),
 };
