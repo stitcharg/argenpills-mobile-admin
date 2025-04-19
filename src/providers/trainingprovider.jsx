@@ -1,8 +1,8 @@
 const URL = import.meta.env.VITE_ENDPOINT + "/trainingdata";
-const token = localStorage.getItem('token') ?? null;
 
 export const apAiTrainingProvider = {
 	getList: async ({ resource }) => {
+		const token = localStorage.getItem('token') ?? null;
 
 		const response = await fetch(URL, {
 			method: 'GET',
@@ -25,6 +25,8 @@ export const apAiTrainingProvider = {
 	},
 
 	getOne: async (resource, { id }) => {
+		const token = localStorage.getItem('token') ?? null;
+
 		const response = await fetch(`${URL}/${id}`, {
 			method: 'GET',
 			headers: new Headers(
@@ -49,6 +51,8 @@ export const apAiTrainingProvider = {
 	}),
 
 	create: async (resource, { data }) => {
+		const token = localStorage.getItem('token') ?? null;
+
 		const body = {
 			input: data.input,
 			output: data.output
@@ -71,6 +75,7 @@ export const apAiTrainingProvider = {
 	},
 
 	update: async (resource, { id, data }) => {
+		const token = localStorage.getItem('token') ?? null;
 
 		const body = {
 			input: data.input,
@@ -100,6 +105,8 @@ export const apAiTrainingProvider = {
 	}),
 
 	delete: async (resource, { id }) => {
+		const token = localStorage.getItem('token') ?? null;
+
 		const response = await fetch(`${URL}/${id}`, {
 			method: 'DELETE',
 			headers: new Headers(
