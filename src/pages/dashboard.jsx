@@ -7,6 +7,7 @@ import httpClient from '../tools/httpClient';
 import { useEffect, useState } from 'react';
 import { ColorsSection as ChartColors } from '../components/dashboard/ColorsSection';
 import ChartDates from '../components/dashboard/DateSection';
+import { AIBotSection } from '../components/dashboard/aiBotSection';
 import { useAuthenticated, useAuthState } from 'react-admin';
 
 const URL = import.meta.env.VITE_ENDPOINT;
@@ -48,6 +49,13 @@ const Dashboard = () => {
 					<Box>
 						<h2>Por fecha</h2>
 						<ChartDates data={chartData} />
+					</Box>
+				</Stack>
+				<Stack direction="row"
+					spacing={2}>
+					<Box>
+						<h2>Chats con el bot</h2>
+						<AIBotSection data={chartData} />
 					</Box>
 				</Stack>
 			</CardContent>
