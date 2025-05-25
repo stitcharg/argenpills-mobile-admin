@@ -1,4 +1,6 @@
-import { List, Datagrid, TextField, DateField, Pagination, Filter, DateInput } from 'react-admin';
+import { List, Datagrid, TextField, DateField, Pagination, Filter, DateInput, Button, useRecordContext } from 'react-admin';
+import { useState } from 'react';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Typography } from '@mui/material';
 
 const PostPagination = props => <Pagination rowsPerPageOptions={[10, 25, 50, 100]} {...props} />;
 
@@ -7,6 +9,45 @@ const AiBotHistoryFilter = (props) => (
 		<DateInput source="createdAtDate" label="Created Date" defaultValue={new Date().toISOString().split('T')[0]} />
 	</Filter>
 );
+
+const JsonViewer = ({ source }) => {
+	const [open, setOpen] = useState(false);
+	const record = useRecordContext();
+	let jsonData = null;
+
+	if (!record) return null;
+
+	try {
+		jsonData = JSON.parse(record[source]);
+	} catch (e) {
+		return <TextField source={source} />;
+	}
+
+	return (
+		<>
+			<Button onClick={() => setOpen(true)} label="Resultados" />
+			<Dialog open={open} onClose={() => setOpen(false)} maxWidth="md" fullWidth>
+				<DialogTitle>Respuesta</DialogTitle>
+				<DialogContent>
+					<Typography component="pre" style={{
+						whiteSpace: 'pre-wrap',
+						wordBreak: 'break-word',
+						backgroundColor: '#f5f5f5',
+						padding: '16px',
+						borderRadius: '4px',
+						overflow: 'auto',
+						fontFamily: 'monospace'
+					}}>
+						{JSON.stringify(jsonData, null, 2)}
+					</Typography>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={() => setOpen(false)} label="Close" />
+				</DialogActions>
+			</Dialog>
+		</>
+	);
+};
 
 export const aiBotHistoryList = props => (
 	<List {...props}
@@ -25,7 +66,7 @@ export const aiBotHistoryList = props => (
 					hour12: false     // Use 24-hour format
 				}} />
 			<TextField source="question" />
-			<TextField source="answer" />
+			<JsonViewer source="answer" />
 		</Datagrid>
 	</List>
 ); 
