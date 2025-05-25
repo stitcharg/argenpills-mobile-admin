@@ -1,6 +1,6 @@
 import { List, Datagrid, TextField, DateField, Pagination, Filter, DateInput, Button, useRecordContext } from 'react-admin';
 import { useState } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Typography } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Typography, useTheme } from '@mui/material';
 
 const PostPagination = props => <Pagination rowsPerPageOptions={[10, 25, 50, 100]} {...props} />;
 
@@ -13,6 +13,7 @@ const AiBotHistoryFilter = (props) => (
 const JsonViewer = ({ source }) => {
 	const [open, setOpen] = useState(false);
 	const record = useRecordContext();
+	const theme = useTheme();
 	let jsonData = null;
 
 	if (!record) return null;
@@ -32,7 +33,8 @@ const JsonViewer = ({ source }) => {
 					<Typography component="pre" style={{
 						whiteSpace: 'pre-wrap',
 						wordBreak: 'break-word',
-						backgroundColor: '#f5f5f5',
+						backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[100],
+						color: theme.palette.text.primary,
 						padding: '16px',
 						borderRadius: '4px',
 						overflow: 'auto',
@@ -69,4 +71,4 @@ export const aiBotHistoryList = props => (
 			<JsonViewer source="answer" />
 		</Datagrid>
 	</List>
-); 
+);
