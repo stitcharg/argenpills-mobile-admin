@@ -4,9 +4,15 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Typography, useTheme
 
 const PostPagination = props => <Pagination rowsPerPageOptions={[10, 25, 50, 100]} {...props} />;
 
+const getArgentinaDate = () => {
+	const date = new Date().toLocaleString('en-US', { timeZone: 'America/Argentina/Buenos_Aires' });
+	const [month, day, year] = date.split(',')[0].split('/');
+	return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+};
+
 const AiBotHistoryFilter = (props) => (
-	<Filter {...props} alwaysOn={true} defaultExpanded={true} >
-		<DateInput source="createdAtDate" label="Created Date" defaultValue={new Date().toISOString().split('T')[0]} />
+	<Filter {...props} alwaysOn={true} defaultExpanded={true} variant="outlined">
+		<DateInput source="createdAtDate" label="Created Date" />
 	</Filter>
 );
 
@@ -58,7 +64,9 @@ export const aiBotHistoryList = props => (
 		resource='aibot'
 		exporter={false}
 		title="Argenpills AI Bot history"
-		storeKey={false}>
+		storeKey={false}
+		empty={false}
+		filterDefaultValues={{ createdAtDate: getArgentinaDate() }}>
 		<Datagrid>
 			<TextField source="username" />
 			<TextField source="chat_id" />
