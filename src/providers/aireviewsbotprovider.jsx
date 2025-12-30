@@ -1,6 +1,6 @@
 export const apAiBotReviewProvider = {
 	getList: async (resource, params) => {
-		const URL = import.meta.env.VITE_ENDPOINT + "aireviews";
+		const URL = import.meta.env.VITE_ENDPOINT + "/aireviews";
 		const token = localStorage.getItem('token') ?? null;
 
 		const { filter } = params || {};
