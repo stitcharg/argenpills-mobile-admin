@@ -13,7 +13,7 @@ const getArgentinaDate = () => {
 const AiBotReviewFilter = (props) => (
 	<Filter {...props} variant="outlined" defaultExpanded={true}>
 		<DateInput source="createdAtDate" label="Created Date" />
-		<BooleanInput source="posted" label="Posted on the Forum" defaultValue={false} />
+		<BooleanInput source="posted" label="Posted to the Forum (not supported yet)" defaultValue={false} />
 	</Filter>
 );
 
