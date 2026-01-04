@@ -3,6 +3,7 @@ import { apPillProvider } from './dataprovider';
 import { apAiBotHistoryProvider } from './aibotprovider';
 import { apAiTrainingProvider } from './trainingprovider';
 import { apAiBotReviewProvider } from './aireviewsbotprovider';
+import { apFactsProvider } from './factsprovider';
 
 export const dataProviders = combineDataProviders((resource) => {
 	switch (resource) {
@@ -14,6 +15,8 @@ export const dataProviders = combineDataProviders((resource) => {
 			return apAiBotReviewProvider;
 		case 'trainingdata':
 			return apAiTrainingProvider;
+		case 'facts':
+			return apFactsProvider;
 		default:
 			throw new Error(`Unknown resource: ${resource}`);
 	}

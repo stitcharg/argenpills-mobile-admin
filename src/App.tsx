@@ -19,6 +19,10 @@ import { dataProviders } from './providers/combineproviders';
 import authProvider from './providers/authprovider';
 import dashboard from './pages/dashboard';
 import { RuleEdit } from './components/aibot/training/editrule';
+import { FactList } from './components/facts/facts';
+import { FactAdd } from './components/facts/addfact';
+import { FactEdit } from './components/facts/editfact';
+import InfoIcon from '@mui/icons-material/Info';
 
 export function App() {
 
@@ -55,6 +59,12 @@ export function App() {
 				hasShow={false}
 				options={{ label: 'Training data' }}
 				icon={BubblesIcon} />
+			<Resource name="facts"
+				list={FactList}
+				create={FactAdd}
+				edit={FactEdit}
+				options={{ label: 'Consejos' }}
+				icon={InfoIcon} />
 		</Admin>
 	);
 }
