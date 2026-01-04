@@ -23,6 +23,7 @@ import { FactList } from './components/facts/facts';
 import { FactAdd } from './components/facts/addfact';
 import { FactEdit } from './components/facts/editfact';
 import InfoIcon from '@mui/icons-material/Info';
+import { APLayout } from './layout/APLayout';
 
 export function App() {
 
@@ -30,7 +31,8 @@ export function App() {
 		<Admin
 			dataProvider={dataProviders}
 			authProvider={authProvider}
-			dashboard={dashboard}>
+			dashboard={dashboard}
+			layout={APLayout}>
 			<Resource name="items"
 				list={PillList}
 				create={PillAdd}
