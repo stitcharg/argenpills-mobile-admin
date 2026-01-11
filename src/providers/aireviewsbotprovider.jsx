@@ -63,4 +63,24 @@ export const apAiBotReviewProvider = {
 	deleteMany: async (resource, { ids }) => ({
 		data: ids,
 	}),
+
+	postforum: async (resource, { photoId }) => {
+		const URL = import.meta.env.VITE_ENDPOINT + "/aireviews/postforum";
+		const token = localStorage.getItem('token') ?? null;
+
+		const response = await fetch(URL, {
+			method: 'POST',
+			headers: new Headers({
+				'authorization': `Bearer ${token}`,
+				'Content-Type': 'application/json'
+			}),
+			body: JSON.stringify({ photoId }),
+		});
+
+		if (!response.ok) {
+			throw new Error('Error posting to forum');
+		}
+
+		return await response.json();
+	},
 };
