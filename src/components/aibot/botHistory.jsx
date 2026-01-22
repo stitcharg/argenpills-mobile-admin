@@ -69,8 +69,8 @@ export const aiBotHistoryList = props => (
 		filterDefaultValues={{ createdAtDate: getArgentinaDate() }}>
 		<Datagrid>
 			<TextField source="username" />
-			<TextField source="chat_id" />
-			<DateField source="created_at" showTime={true}
+			<TextField source="chatId" />
+			<DateField source="createdAt" showTime={true}
 				options={{
 					timeZone: 'UTC',  // Set to your server's timezone
 					hour12: false     // Use 24-hour format
